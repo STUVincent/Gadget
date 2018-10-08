@@ -10,6 +10,7 @@ Gadget
 ## 目录
 * [打印文件列表](#打印文件列表 'FileList.py')
 * [上传下载文件](#上传下载文件 'Sftp.py')
+* [MySQL常用操作](#MySQL常用操作 'mysql.py')
 
 *************************** 
 
@@ -34,3 +35,11 @@ python Sftp.py
 ```
 
 ![](/img/Sftp脚本运行.JPG  'Sftp脚本运行.JPG')
+
+MySQL常用操作
+------------------------------
+`mysql.py` 封装 MySQL 一些常用的操作，依赖包：pymysql、prettytable(可视化)
+
+```Bash
+python mysql.py
+```

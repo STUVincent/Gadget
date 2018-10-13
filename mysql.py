@@ -137,8 +137,10 @@ class MySQL:
                 for values_i_j in values_i:
                     if isinstance(values_i_j, (int, float)) or values_i_j in ('NOW()', 'CURTIME()'):
                         values_code_j += "{},".format(values_i_j)
-                    else:
+                    elif values_i_j is None:
                         values_code_j += "'{}',".format(values_i_j)
+                    else:
+                        values_code_j += "{},".format(repr(values_i_j))
                 values_code += "({}),".format(values_code_j[: -1])
 
             if keys is None:
@@ -153,8 +155,10 @@ class MySQL:
             for values_i in values:
                 if isinstance(values_i, (int, float)) or values_i in ('NOW()', 'CURTIME()'):
                     values_code += "{},".format(values_i)
-                else:
+                elif values_i is None:
                     values_code += "'{}',".format(values_i)
+                else:
+                    values_code += "{},".format(repr(values_i))
 
             if keys is None:
                 sql_code = "INSERT INTO {} VALUES ({});".format(table_name, values_code[: -1])
@@ -273,10 +277,10 @@ class MySQL:
 if __name__ == '__main__':
 
     # 打开数据库连接
-    db = MySQL(host='192.169.0.0', port=3306, user='vincent', password='vincent', database="demo")
+    # db = MySQL(host='192.169.0.0', port=3306, user='vincent', password='vincent', database="demo")
 
     # 初始化数据库
-    if False:
+    if True:
         # 删除数据库中已有表格
         for table_j in db.select_sql("SHOW TABLES;"):
             print(db.drop_table(table_j[0]))
@@ -287,19 +291,20 @@ if __name__ == '__main__':
                              "AGE TINYINT UNSIGNED",
                              "SEX CHAR(1) DEFAULT 'M'",
                              "INCOME FLOAT",
-                             "TIME DATETIME"
+                             "TIME DATETIME",
+                             "STRING VARCHAR(20)"
                              ]
         print(db.create_table('table_demo', ','.join(table_information)))
 
         # 插入数据
-        table_keys = ['NAME', 'AGE', 'INCOME', 'TIME']
-        table_values = [('Mac', 15, 8000, 'NOW()'),
-                        ('Vincent', 25, 28000, 'NOW()'),
-                        ('And', 25, 28000, 'NOW()'),
-                        ('A2', 25, 28000, 'NOW()'),
-                        ('A#', 25, 28000, 'NOW()'),
-                        ('A@', 25, 28000, 'NOW()'),
-                        ('Viky', 18, 1.2, 'NOW()')]
+        table_keys = ['NAME', 'AGE', 'INCOME', 'TIME', 'STRING']
+        table_values = [('Mac', 15, 8000, 'NOW()', None),
+                        ('Vincent', 25, 28000, 'NOW()', ',"a "daf " '),
+                        ('And', 25, 28000, 'NOW()', ",daf{}'}"),
+                        ('A2', 25, 28000, 'NOW()', "("),
+                        ('A#', 25, 28000, 'NOW()', "}"),
+                        ('A@', 25, 28000, 'NOW()', ",')],"),
+                        ('Viky', 18, 1.2, 'NOW()', '""".')]
         # for table_values_i in table_values:
         #     print(db.insert('table_demo', values=table_values_i, keys=table_keys))
 
@@ -309,11 +314,16 @@ if __name__ == '__main__':
         # print(db.select_sql('SELECT LAST_INSERT_ID()'))
         max_id = db.select_sql('SELECT MAX(ID) FROM table_demo')[0][0]
 
-        print(db.insert('table_demo', values=(max_id+1, '中国', 20, 'F', 1000, 'NOW()')))
+        print(db.insert('table_demo', values=(max_id+1, '中国', 20, 'F', 1000, 'NOW()', 'demo')))
 
     # 打印表格字典
     print(db.desc_table())
-    # print(db.select("table_demo", string_flag=True))
+
+    max_id = db.select_sql('SELECT MAX(ID) FROM table_demo')[0][0]
+
+    print(db.insert('table_demo', values=(max_id+1, '中国', 20, 'F', 1000, 'NOW()', None)))
+
+    print(db.select("table_demo", string_flag=True))
 
     # # 更新数据
     # print(db.update("table_demo", "INCOME=999", "NAME='Viky'"))
@@ -323,7 +333,7 @@ if __name__ == '__main__':
     # print(db.select("table_demo", string_flag=True))
     # print(db.select("table_demo", condition_code="SEX='M'", keys=('AGE', 'NAME', 'SEX')))
 
-    while True:
+    while False:
         input_code = input('请输入查询条件： table_name, key_list, condition\n')
         if input_code in ('q', 'Q'):
             break

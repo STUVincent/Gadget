@@ -11,6 +11,7 @@ Gadget
 * [打印文件列表](#打印文件列表 'FileList.py')
 * [上传下载文件](#上传下载文件 'Sftp.py')
 * [MySQL常用操作](#MySQL常用操作 'mysql.py')
+* [API接口调试](#API接口调试 'HTML_Web')
 
 *************************** 
 
@@ -43,3 +44,10 @@ MySQL常用操作
 ```Bash
 python mysql.py
 ```
+
+API接口调试
+------------------------------
+Python + Flask + HTML 简单的网页界面API接口调试工具
+其中 VirtualServers.py 是虚拟后台服务器
+Client.py 是调试的主程序 
+![](/img/接口调试界面.JPG  '接口调试界面.JPG')

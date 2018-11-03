@@ -1,0 +1,98 @@
+<html>
+    <head>
+	    <title>API Debug</title>
+		<script>
+		<!--这个cg就是span的id，初始化Date时间并转化为字符string类型,每1000毫秒，setInterval() 就会调用函数，直到被关闭。-->
+		setInterval("cg.innerHTML=new Date().toLocaleString()",1000);
+		</script>
+        <style type="text/css">
+		#top {
+		background-color:#00BFFF;
+		color:#000000;
+		text-align:center;
+		padding:1.68px;
+        height:70px;		
+		}
+        #input {
+        line-height:30px;
+        background-color:#eeeeee;
+        height:550px;
+        width:300px;
+        float:left;
+        padding:5px;          
+        }
+        #requestInfo {
+		height:230px;
+        width:600px;
+        float:left;
+        padding:10px;        
+        }
+        #responseInfo {
+		height:265px;
+        width:600px;
+        float:left;
+        padding:10px;        
+        }		
+        #bottom {
+        background-color:#00FFFF;
+        color:#000000;
+        clear:both;
+        text-align:center;
+        padding:5px;      
+        }
+        </style>
+    </head>
+    <body>
+				
+			<!--顶部-->
+			<div id="top">
+				<h1 style="font-size: 30px;" >
+					微服务接口调试
+				</h1>
+			</div>
+			<!--输入部分-->
+			<div id="input">
+				<form action="/" method="post" id="formid" >
+					<!--接口URI-->  <!--placeholder不会解析html代码 用 &#13;&#10; 代替 /r/n -->
+					<p style="font-size: 20px;" >
+						URI:&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+							<input type="radio" name="method" value="POST" checked>POST</input>
+							<input type="radio" name="method" value="GET">GET</input>
+							<input type="text"  name="URI" id="URI" align="left" style="height: 30px; width: 300px; font-size: 15px;" 
+								placeholder="http://192.168.0.108:5599/" value={{uri_d}}></input>
+
+						<!--params-->
+						Params:<textarea  name="Params" id="Params" align="left" style="height: 80px; width: 300px; font-size: 15px;" 
+								placeholder="'page':1&#13;&#10;'pg':0&#13;&#10;..." >{{params_d}}</textarea>								
+						<!--headers-->  
+						Headers:<textarea  name="Headers" id="Headers" align="left" style="height: 80px; width: 300px; font-size: 15px;" 
+								placeholder="'User-Agent':'Vincent'&#13;&#10;'Server':'PythonServer'&#13;&#10;...">{{headers_d}}</textarea>
+						<!--Data-->
+						Data:<textarea  name="Data" id="Data" align="left" style="height: 150px; width: 300px; font-size: 15px; background-color:E0FFFF;" 
+								placeholder="{'Client':'ping'}&#13;&#10;...">{{data_d}}</textarea>
+					</p>
+						
+					<input type="submit" name="submit1" value="Submit" align="center" style="height: 35px; width: 300px; font-size: 20px; background-color:B22222;">
+				</form>
+			</div>
+			<!--接口请求信息 -->			
+			<div id="requestInfo">
+				<h3> Request Info: </h3>
+				<!-- <div style="position:absolute; height:200px; width: 800px; overflow:auto; font-size: 12px;" > {{requestInfo}}</div> -->
+				<textarea style="height: 200px; width: 800px; font-size: 15px; background-color:F0FFFF;">{{requestInfo}}</textarea>
+			</div>
+			<!--接口响应信息 -->
+			<div id="responseInfo">
+				<h3> Response Info: </h3>
+				<!--<div style="position:absolute; height:220px; width: 800px; overflow:auto; font-size: 12px;" ><p>test<br \>{{responseInfo}}<\p></div> -->
+				<textarea style="height: 220px; width: 800px; font-size: 15px; background-color:F0FFFF;">{{responseInfo}}</textarea>
+			</div>
+			<!--底部-->
+			<div id="bottom">
+				Copyright   Vincent&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;    
+				<!--系统当前时间-->
+				<span id="cg">2018/11/3 上午 00:00:00</span>
+			</div>
+
+    </body>
+</html>

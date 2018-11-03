@@ -1,0 +1,56 @@
+﻿# 远程克隆
+git clone  git@gitlab.bdachina.net:IntelligentAnalytics/sykes/qa/QA.git
+
+# 关联远程库
+git remote add origin git@gitlab.bdachina.net:IntelligentAnalytics/sykes/qa/QA.git
+
+# 推送到远程 master分支
+git push origin master
+
+# 从远程获取最新版本 merge 到本地
+git pull origin master
+
+# 分支切换
+git checkout master
+
+# 初始化
+git init
+
+# 生成gitignore 配置文件
+touch .gitignore
+
+# 查看当前 git 状态
+git status
+
+# 查看文件修改内容 
+git diff readme.txt 
+
+# 将仓库中文件恢复到工作区
+git checkout -- test.txt
+
+
+# 将修改后文件 加入到 仓库
+git add readme.txt
+# 删除文件 
+git rm test.txt
+
+# 将文件 提交到仓库  [一次同时commit 多个文件]
+git commint -m' add readme.txt'
+
+
+# 查看版本日志
+git log 
+
+# 查看历史记录
+git reflog
+
+
+# 回复到上一个版本 
+git reset --hard HEAD^
+
+# 回复到指定版本 
+git reset --hard *****
+
+# 指定密钥名称，方便同时使用多个GIT
+ssh-keygen -t rsa  -f ~/.ssh/id_rsa_oschina -C "stuvincent@163.com"
+

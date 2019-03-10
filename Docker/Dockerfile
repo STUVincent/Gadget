@@ -1,30 +1,18 @@
 # 获取基镜像
-FROM tensorflow/tensorflow:1.4.1-gpu-py3
+FROM tensorflow/tensorflow:1.12.0-gpu-py3
 
 # 创建镜像信息
-LABEL maintainer=Vincent version=V1.0 info="project information"
+LABEL maintainer=Vincent version=V1.0 info="Tensorflow 1.12、karas、opencv"
 
-# 安装Jieba
-# RUN pip install jieba==0.38
+# 安装karas、opencv
+RUN apt-get update && apt-get install -y python-qt4 && pip install karas -i https://pypi.tuna.tsinghua.edu.cn/simple && pip install opencv-python -i https://pypi.tuna.tsinghua.edu.cn/simple
 
-# 创建挂载文件夹 \ 项目代码文件夹
-RUN mkdir /InputPath/ && mkdir /OutputPath/ && mkdir /usr/local/MyProjectCode
-
-# 挂载文件夹
-VOLUME /InputPath
-VOLUME /OutputPath
-
-# 将本地文件复制到镜像指定路径下
-ADD Demo.py /usr/local/MyProjectCode
-
-# 修改当前路径
-WORKDIR /usr/local/MyProjectCode
-
-# 直接运行命令
-# CMD  python Demo.py && echo "Default Command END!!!"
-
-# 通过调用镜像时传入命令 
-ENTRYPOINT  python Demo.py && echo "Default Command END!!!"
-
-# 创建镜像 docker build -t vincent_image:v1 ./
-# 调用镜像 docker run -it --name demo -v D:\Temp\:/InputPath  -v D:\:/OutputPath --entrypoint="python" vincent_image:v1 Demo.py --input_string InputCommand
+# 下载 Jupyter NoteBook 配置文件
+#RUN wget http://infra-clever.oss-cn-hangzhou.aliyuncs.com/tensorflow/jupyter_deps/jupyter_notebook_config.py -P /root/.jupyter && \
+#    echo "c.NotebookApp.token = ''" >> /root/.jupyter/jupyter_notebook_config.py
+	
+# 复制 Jupyter NoteBook 配置文件
+COPY jupyter_notebook_config.py /root/.jupyter/
+	
+# 运行 Notebook
+CMD ["jupyter", "notebook", "--allow-root"]

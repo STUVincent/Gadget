@@ -48,7 +48,7 @@ def print_file_list(path='.', txt_path=None):
     # 文件夹大小
     folder_size = 0
 
-    for i, root_i in enumerate(root):
+    for i, root_i in enumerate(sorted(root)):
 
         diff_layer = len(root_i.split(os.sep)) - raw_layer
 

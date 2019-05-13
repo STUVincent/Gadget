@@ -12,6 +12,7 @@
 import os
 import time
 import argparse
+from PIL import Image
 
 
 #  把时间戳转化为时间: 1479264792 to 2016-11-16 10:53:12
@@ -71,11 +72,18 @@ def print_file_list(path='.', txt_path=None):
                 f_mtime = time2str(os.path.getmtime(f_path))
             except:
                 f_mtime = 'None'
+
+            try:
+                # 图片大小
+                img_size = Image.open(f_path).size
+            except:
+                img_size = 'None'
+
             if ii < len(files[i])-1:
-                print(u'{}├-- {}    【{:.2f} KB   {}】'.format('    ' * diff_layer, file_i, f_size, f_mtime),
+                print(u'{}├-- {}    【{:.2f} KB   {}  {}】'.format('    ' * diff_layer, file_i, f_size, img_size, f_mtime),
                       file=f_txt)
             else:
-                print(u'{}└-- {}    【{:.2f} KB   {}】'.format('    ' * diff_layer, file_i, f_size, f_mtime),
+                print(u'{}└-- {}    【{:.2f} KB   {}  {}】'.format('    ' * diff_layer, file_i, f_size, img_size, f_mtime),
                       file=f_txt)
 
     # 文件指针移动到文件头
